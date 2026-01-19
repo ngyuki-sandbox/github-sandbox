@@ -3,33 +3,26 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/main.yaml
 defaults:
   run:
     shell: bash
 jobs:
-  build:
+  dev:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo build
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
     environment: dev
     steps:
-      - run: echo deploy
+      - run: echo ${{ github.sha }}
 
   stg:
     runs-on: ubuntu-latest
-    needs: build
     environment: stg
     steps:
-      - run: echo stg
-
+      - run: echo ${{ github.sha }}
 
   prd:
     runs-on: ubuntu-latest
-    needs: build
     environment: prd
     steps:
-      - run: echo prd
+      - run: echo ${{ github.sha }}
