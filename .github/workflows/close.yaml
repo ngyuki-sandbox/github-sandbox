@@ -1,0 +1,20 @@
+name: pr close
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          cat <<'EOS' > github.json
+          ${{ toJSON(github) }}
+          EOS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: github.json
+          path: github.json
