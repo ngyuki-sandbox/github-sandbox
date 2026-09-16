@@ -1,0 +1,20 @@
+name: Question
+description: 仕様や動作についての質問はこちら
+labels:
+  - question
+assignees:
+  - ngyuki
+body:
+  - type: textarea
+    id: question-details
+    attributes:
+      label: 質問内容
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: 関連
+      description: 関連 issue・リンクなど
+    validations:
+      required: false

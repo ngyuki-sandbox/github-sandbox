@@ -1,0 +1,34 @@
+name: Bug report
+description: 不具合報告はこちら
+type: Bug
+assignees:
+  - ngyuki
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 不具合内容
+      description: 発生している不具合
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期待する挙動
+      description: 本来どうなるべきか
+    validations:
+      required: true
+  - type: textarea
+    id: environment-and-steps
+    attributes:
+      label: 発生環境・再現手順など
+      description: 不具合が発生した環境や再現できる手順などあれば
+    validations:
+      required: false
+  - type: textarea
+    id: references
+    attributes:
+      label: 関連
+      description: 関連 issue・リンク など
+    validations:
+      required: false

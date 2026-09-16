@@ -1,0 +1,27 @@
+name: Feature request
+description: 新規エンドポイントやメタ追加などの機能改修関係はこちら
+type: Feature
+assignees:
+  - ngyuki
+body:
+  - type: textarea
+    id: implementation
+    attributes:
+      label: 実装・検討内容
+      description: 追加・変更したい内容 / 仕様案があれば併記
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・課題
+      description: なぜ必要なのか、誰が何に困っているのか / これまでの経緯
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: 関連
+      description: 関連 issue・リンク など
+    validations:
+      required: false

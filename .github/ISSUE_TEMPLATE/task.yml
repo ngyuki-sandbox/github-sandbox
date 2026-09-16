@@ -1,0 +1,19 @@
+name: Task
+description: Feature や Bug に分類されない実施すべき作業
+type: Task
+assignees:
+  - ngyuki
+body:
+  - type: textarea
+    id: task-details
+    attributes:
+      label: 作業内容
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: 関連
+      description: 関連 issue・リンクなど
+    validations:
+      required: false
