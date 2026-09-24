@@ -1,0 +1,57 @@
+name: check fixup and autosquash
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - unlabeled
+
+jobs:
+  check-and-label:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    runs-on: ubuntu-slim
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: check-and-label
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if git log "$BASE_SHA"..HEAD --format=%s | grep -q "^fixup!"; then
+            echo "fixup! commit found. Adding label..."
+            gh pr edit "$PR_NUMBER" --add-label "needs:autosquash"
+          else
+            echo "No fixup! commit found."
+            gh pr edit "$PR_NUMBER" --remove-label "needs:autosquash"
+          fi
+
+  autosquash:
+    if: github.event.action == 'unlabeled' && github.event.label.name == 'needs:autosquash'
+    runs-on: ubuntu-slim
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: autosquash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash "$BASE_SHA"
+          git push origin HEAD --force-with-lease
